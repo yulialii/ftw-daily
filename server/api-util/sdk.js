@@ -5,8 +5,15 @@ const sharetribeSdk = require('sharetribe-flex-sdk');
 
 const CLIENT_ID = process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID;
 const CLIENT_SECRET = process.env.SHARETRIBE_SDK_CLIENT_SECRET;
-const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 const TRANSIT_VERBOSE = process.env.REACT_APP_SHARETRIBE_SDK_TRANSIT_VERBOSE === 'true';
+
+// Set USING_SSL to 'true' by default in production environment if the env value is not set
+// If you don't want to use SSL in production
+// you need to set REACT_APP_SHARETRIBE_USING_SSL to 'false '
+const useSSLDefault =
+  process.env.REACT_APP_ENV === 'production' &&
+  !process.env.REACT_APP_SHARETRIBE_USING_SSL === 'false';
+const USING_SSL = !!useSSLDefault || !!process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 // Application type handlers for JS SDK.
 //

@@ -3,7 +3,14 @@ const moment = require('moment');
 
 const buildPath = path.resolve(__dirname, '..', 'build');
 const PORT = parseInt(process.env.PORT, 10);
-const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
+
+// Set USING_SSL to 'true' by default in production environment if the env value is not set
+// If you don't want to use SSL in production
+// you need to set REACT_APP_SHARETRIBE_USING_SSL to 'false '
+const useSSLDefault =
+  process.env.REACT_APP_ENV === 'production' &&
+  !process.env.REACT_APP_SHARETRIBE_USING_SSL === 'false';
+const USING_SSL = !!useSSLDefault || !!process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 /**
  * Resolves domain and port information from

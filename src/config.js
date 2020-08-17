@@ -78,7 +78,13 @@ const listingMinimumPriceSubUnits = 0;
 const sentryDsn = process.env.REACT_APP_SENTRY_DSN;
 
 // If webapp is using SSL (i.e. it's behind 'https' protocol)
-const usingSSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
+// Set USING_SSL to 'true' by default in production environment if the env value is not set
+// If you don't want to use SSL in production
+// you need to set REACT_APP_SHARETRIBE_USING_SSL to 'false '
+const useSSLDefault =
+  process.env.REACT_APP_ENV === 'production' &&
+  !process.env.REACT_APP_SHARETRIBE_USING_SSL === 'false';
+const usingSSL = !!useSSLDefault || !!process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 // Address information is used in SEO schema for Organization (http://schema.org/PostalAddress)
 const addressCountry = 'FI';

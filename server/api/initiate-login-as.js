@@ -4,7 +4,14 @@ const CLIENT_ID = process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID;
 const ROOT_URL = process.env.REACT_APP_CANONICAL_ROOT_URL;
 const CONSOLE_URL =
   process.env.SERVER_SHARETRIBE_CONSOLE_URL || 'https://flex-console.sharetribe.com';
-const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
+
+// Set USING_SSL to 'true' by default in production environment if the env value is not set
+// If you don't want to use SSL in production
+// you need to set REACT_APP_SHARETRIBE_USING_SSL to 'false '
+const useSSLDefault =
+  process.env.REACT_APP_ENV === 'production' &&
+  !process.env.REACT_APP_SHARETRIBE_USING_SSL === 'false';
+const USING_SSL = !!useSSLDefault || !!process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 // redirect_uri param used when initiating a login as authentication flow and
 // when requesting a token using an authorization code
