@@ -17,6 +17,8 @@ const initiatePrivileged = require('./api/initiate-privileged');
 const transitionPrivileged = require('./api/transition-privileged');
 
 const { authenticateFacebook, authenticateFacebookCallback } = require('./api/auth/facebook');
+const { authenticateGoogle, authenticateGoogleCallback } = require('./api/auth/google');
+
 const router = express.Router();
 
 // ================ API router middleware: ================ //
@@ -53,4 +55,7 @@ router.post('/transition-privileged', transitionPrivileged);
 
 router.get('/auth/facebook', authenticateFacebook);
 router.get('/auth/facebook/callback', authenticateFacebookCallback);
+
+router.get('/auth/google', authenticateGoogle);
+router.get('/auth/google/callback', authenticateGoogleCallback);
 module.exports = router;
