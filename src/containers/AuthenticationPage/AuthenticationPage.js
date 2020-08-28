@@ -150,6 +150,13 @@ export class AuthenticationPageComponent extends Component {
             onOpenTermsOfService={() => this.setState({ tosModalOpen: true })}
           />
         )}
+        <a href={`http://localhost:${process.env.REACT_APP_DEV_API_SERVER_PORT}/api/auth/facebook`}>
+          Facebook login
+        </a>
+        <br />
+        <a href={`http://localhost:${process.env.REACT_APP_DEV_API_SERVER_PORT}/api/auth/google`}>
+          Google login
+        </a>
       </div>
     );
 
