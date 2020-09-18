@@ -46,25 +46,27 @@ const post = (path, body) => {
     },
     body: serialize(body),
   };
-  return window
-    .fetch(url, options)
-    .then(res => {
-      const contentTypeHeader = res.headers.get('Content-Type');
-      const contentType = contentTypeHeader ? contentTypeHeader.split(';')[0] : null;
-      if (contentType === 'application/transit+json') {
-        return res.text().then(deserialize);
-      } else if (contentType === 'application/json') {
-        return res.json();
-      }
-      return res.text();
-    })
-    .then(res => {
-      if (res.status >= 400) {
-        const e = res;
-        throw e;
-      }
-      return res;
-    });
+  return window.fetch(url, options).then(res => {
+    const contentTypeHeader = res.headers.get('Content-Type');
+    const contentType = contentTypeHeader ? contentTypeHeader.split(';')[0] : null;
+
+    if (res.status >= 400) {
+      return res.json().then(data => {
+        if (data.status >= 400) {
+          let e = new Error();
+          e = Object.assign(e, data);
+
+          throw e;
+        }
+      });
+    }
+    if (contentType === 'application/transit+json') {
+      return res.text().then(deserialize);
+    } else if (contentType === 'application/json') {
+      return res.json();
+    }
+    return res.text();
+  });
 };
 
 // Fetch transaction line items from the local API endpoint.
